@@ -55,7 +55,10 @@ If environment is unclear, ask — one question, multiple choice:
 
 **Session note — always tell this to web users:**
 
-> *"One thing to know: on Claude web, I can't save your profile automatically between sessions. At the end of our session I'll give you your profile as text to copy and save — you can paste it back next time and I'll pick up where we left off. For the best Sherpa experience over time, Claude Code saves the profile for you automatically."*
+> *"One thing to know: on Claude web, I can't save your profile automatically. The best solution is to use a **Claude Project** — if you create a Project and add your profile there, it'll be available every time you open that Project. Otherwise, I'll give you your profile as text at the end and you can paste it back next time. For fully automatic saving, Claude Code handles it all without any copying."*
+
+*If the user asks what a Claude Project is:*
+> *"A Claude Project is a dedicated workspace on claude.ai — it keeps a set of files and instructions attached to all conversations inside it. You can create one at claude.ai/projects. It's the best way to keep Sherpa working on the web."*
 
 ## Mode detection
 
@@ -129,6 +132,14 @@ Ask questions one at a time. Wait for each answer before asking the next. Never 
 
 *If A: plant a flag — don't ask anything yet, just note it:*
 > *"Good to know — some of your setup lives on each machine separately. We'll come back to that on the trail."*
+
+**Q4b:**
+> *"Are you using Claude mainly for work, personal projects, or both?"*
+> - A) Mainly work
+> - B) Mainly personal
+> - C) Both
+
+*Store this answer — it determines whether the compliance questions in the crevasses section apply.*
 
 ---
 
@@ -229,13 +240,13 @@ Ask each misconception question as its own moment. When the user answers incorre
 
 ### Crevasses — danger zones
 
-**Q16:**
-> *"Do you work with sensitive information — like patient records, legal documents, or confidential business data?"*
+**Q16 — ask everyone:**
+> *"Do you ever use Claude with sensitive information — things like health data, financial records, legal documents, or confidential business information?"*
 > - A) Yes, regularly
 > - B) Sometimes
 > - C) No
 
-**Q17 — if A or B:**
+**Q17 — only if Q4b was A or C (work or both) AND Q16 was A or B:**
 > *"Does your organization have specific rules around this data — like HIPAA, CJIS, or other compliance requirements?"*
 > - A) Yes, specific requirements
 > - B) General "be careful" policies
@@ -244,11 +255,13 @@ Ask each misconception question as its own moment. When the user answers incorre
 *If A — flag prominently:*
 > *"Important — before we map your route, we need to make sure you know what data should and shouldn't go into Claude. Regulated data like patient records or criminal justice information must not be pasted into prompts. We'll make this a waypoint on your path."*
 
-**Q18:**
+**Q18 — only if Q4b was A or C (work or both):**
 > *"Does your workplace have rules about which AI tools you're allowed to use?"*
 > - A) Yes — approved tools only
 > - B) No specific rules
 > - C) Not sure
+
+*If Q4b was B (personal only): skip Q17 and Q18 entirely.*
 
 ---
 
@@ -418,7 +431,7 @@ Adapt to OS and technical level:
 > *"Add `~/.claude/` to your dotfiles repo — your profile, skills, and settings all travel together."*
 
 **Claude web:**
-> *"Since we're on Claude web and I can't write files, your profile is the text I gave you above. Save it in a Claude Project (in Project instructions or as an attached file), or keep it in a notes app. Either way, paste it at the start of your next Sherpa session and I'll recognize it."*
+> *"The best place to keep your profile on the web is a **Claude Project** — paste it into the Project instructions, and it'll be loaded every time you open that Project. If you don't use Projects, save the text in a notes app or file and paste it back at the start of your next Sherpa session."*
 
 Also tell the user what else lives locally:
 > *"One more thing — any skills you've installed and your Claude settings also live on this machine. They don't travel automatically, so you'll need to reinstall them on new devices."*
