@@ -92,6 +92,8 @@ Once they confirm, switch to check-in mode.
 
 Ask questions one at a time. Wait for each answer before asking the next. Never combine two questions into one message. Use the branching logic below to determine which question comes next.
 
+**Handling answers that exceed the options:** If a user gives a nuanced or more-correct answer than any of the multiple choice options capture, acknowledge it — don't talk down to them. Example: if someone says "it depends whether memory is enabled" to the memory question, that's more accurate than option B. Say so: *"That's actually more precise than what I offered — you clearly know the memory model. Let's move on."* Never validate a wrong answer and never penalize a right one just because it didn't match a checkbox.
+
 ---
 
 ### Base camp — who are you
@@ -311,27 +313,40 @@ After Q19, ask one more question based on detected environment:
 
 ## Concept map
 
-After the quiz, synthesize all answers into a terrain map. Do not just transcribe answers — read between the lines. What the user didn't mention is often as informative as what they did.
+After the quiz, synthesize all answers into a terrain map. Rate each domain on evidence from the quiz only — not assumptions.
+
+### Rating scale — four states
+
+| State | Meaning | When to use |
+|-------|---------|-------------|
+| **Solid ground** | Positive evidence of competence | User demonstrated knowledge or described practices that show they understand this domain |
+| **Uncharted** | Evidence of a gap | User described frustration, confusion, or behavior that points to a specific weakness here |
+| **Crevasse** | Active misconception | User answered a misconception question incorrectly, or described a practice that will cause real problems |
+| **Not assessed** | No data either way | The quiz didn't cover this domain for this user — absence of evidence is not evidence of weakness |
+
+**Critical rule: do not rate a domain as "uncharted" just because you didn't ask about it. Use "not assessed" instead.** Universal frustrations (bugs, dead code, long sessions) are not evidence of poor prompt craft — they happen to everyone. Require a specific signal before downgrading a domain.
 
 ### The 7 domains
 
-Rate each as **solid ground**, **uncharted**, or **crevasse** (active misconception that needs clearing):
-
-| Domain | What it covers | Crevasse signals |
-|--------|---------------|-----------------|
-| **Prompt craft** | Clear instructions, examples, scope, specificity | Uses vague one-liners, frustrated by off-target responses |
-| **Claude's limits** | Memory, hallucination, web access, context degradation | Wrong answers on Q8/Q9/Q10, or relies on Claude for facts without verifying |
-| **Conversation flow** | Iteration, feedback, knowing when to start fresh | Only does one-shot Q&A (Q13-A pattern) |
-| **Context management** | What to include, CLAUDE.md, /compact, session hygiene | Unaware of CLAUDE.md, pastes entire files, long frustrating sessions |
-| **Delegation** | Sub-agents, handoff, when not to do it yourself | Unaware this is possible |
-| **Workflow integration** | Skills, hooks, automation | Unaware of skills system or thinks it's too advanced |
-| **Data safety** | What to share, compliance constraints | A or B on Q16 with compliance requirements flagged |
+| Domain | What it covers | Solid ground signals | Uncharted/Crevasse signals |
+|--------|---------------|---------------------|---------------------------|
+| **Prompt craft** | Clear instructions, examples, scope, specificity | Describes iterating on prompts, gives specific context, mentions examples | Describes only vague requests, surprised when output misses the mark, never revises prompts |
+| **Claude's limits** | Memory, hallucination, web access, context degradation | Correct answers on Q8/Q9/Q10, verifies important outputs | Wrong answers on Q8/Q9/Q10, acts on Claude output without checking |
+| **Conversation flow** | Iteration, feedback, knowing when to start fresh | Uses back-and-forth (Q13-B or C), knows when to start over | Only one-shot Q&A (Q13-A), never revises, frustrated that Claude "doesn't get it" |
+| **Context management** | What to include, CLAUDE.md, /compact, session hygiene | Manages long sessions deliberately, aware of CLAUDE.md | Pastes raw files, hits context walls repeatedly, unaware of /compact |
+| **Delegation** | Sub-agents, handoff, when not to do it yourself | Describes handing off tasks, uses multi-step flows | Completely unaware delegation is possible |
+| **Workflow integration** | Skills, hooks, automation | Uses skills or hooks, has set up automation | Unaware of skills system, no setup at all |
+| **Data safety** | What to share, compliance constraints | Considers what goes into prompts, aware of org policy | A or B on Q16 with compliance flags and no awareness of the risk |
 
 ### Presenting the map
 
-Present as a brief, warm, plain-language summary. No scores, no grades, no percentages. Example:
+Adapt tone to the user's assessed level:
+- **Beginner:** Warm and encouraging. Use the mountain metaphors. Make it feel like an adventure.
+- **Intermediate/Advanced:** Direct and peer-level. Drop the cheerleading. Respect what they already know. Acknowledge when their quiz answers showed more nuance than the options offered.
 
-> *"Here's your terrain after our chat. Prompt craft looks solid — you're already thinking carefully about what you ask. Claude's limits has a crevasse: Claude doesn't remember our conversations, which explains the frustration you mentioned about repeating yourself. Conversation flow and context management are uncharted — good ground to cover once we clear that first crevasse. Delegation and workflow integration are further up the mountain — we'll get there."*
+No scores, no grades, no percentages. Example for an experienced user:
+
+> *"Here's where things stand. Claude's limits is solid — you clearly understand the memory model and know to verify outputs. Workflow integration is not assessed — we didn't dig into your hooks or automation setup, so I can't rate it. Delegation is uncharted based on Q13; the work you described sounds like it might benefit from offloading some tasks. Context management I'm leaving as not assessed — managing complex multi-file projects suggests you're handling it, but we didn't discuss the specifics."*
 
 **Always clear crevasses before advancing.** If a domain has a crevasse, it goes to the top of the learning path regardless of what the user said their goals were.
 
@@ -390,10 +405,13 @@ multi-device: true | false
 [User's stated goal from Q19 — verbatim or lightly paraphrased]
 
 ## Solid ground
-[Domains rated as solid ground — brief notes on why]
+[Domains with positive evidence of competence — brief notes on what showed this]
 
 ## Uncharted
-[Domains rated as uncharted — ordered by priority]
+[Domains with evidence of gaps — ordered by priority, specific signal noted]
+
+## Not assessed
+[Domains the quiz didn't cover for this user — no judgment, just gaps in the assessment]
 
 ## Crevasses
 - [ ] [Description of misconception]
