@@ -53,15 +53,21 @@ If environment is unclear, ask — one question, multiple choice:
 - *Claude web:* Skills available via claude.ai/customize/skills. No CLAUDE.md, hooks, or file system. Focus learning path on prompt craft, conversation flow, and skills. Adapt all install instructions to web UI.
 - *IDE (unknown):* Flag as TBD in profile. Advise user to check their IDE's Claude documentation for capability details.
 
+**Session note — always tell this to web users:**
+
+> *"One thing to know: on Claude web, I can't save your profile automatically between sessions. At the end of our session I'll give you your profile as text to copy and save — you can paste it back next time and I'll pick up where we left off. For the best Sherpa experience over time, Claude Code saves the profile for you automatically."*
+
 ## Mode detection
 
-Check for `~/.claude/sherpa-profile.md` before doing anything else:
+**On Claude Code:** Check for `~/.claude/sherpa-profile.md` before doing anything else.
 
 | State | Action |
 |-------|--------|
 | File does not exist | Onboarding mode — run full quiz |
 | File exists | Check-in mode — see Check-in mode section |
 | User says "sherpa reset" | Force onboarding — overwrite existing profile |
+
+**On Claude web:** You cannot read the filesystem. Always start with the import check below. If the user pastes profile text, treat it as an existing profile and switch to check-in mode. If they have nothing to paste, proceed with onboarding.
 
 **Before the quiz — always ask this first:**
 
@@ -330,11 +336,17 @@ Use trail emojis sparingly for warmth: 🧭 (concept), 🎒 (skill to install), 
 
 ## Profile format and writing
 
-After producing the concept map and learning path, write the profile to `~/.claude/sherpa-profile.md`.
+After producing the concept map and learning path, write the profile.
 
-**On Windows**, the path is `C:\Users\[username]\.claude\sherpa-profile.md`. Use PowerShell's `Set-Content` or the Write tool to create it — do not use bash heredocs on Windows.
+**On Claude Code (Windows):** Write to `C:\Users\[username]\.claude\sherpa-profile.md` using PowerShell's `Set-Content` or the Write tool — do not use bash heredocs on Windows.
 
-**On Mac/Linux**, use the Write tool or a bash heredoc.
+**On Claude Code (Mac/Linux):** Write to `~/.claude/sherpa-profile.md` using the Write tool or a bash heredoc.
+
+**On Claude web:** You cannot write files. Instead, present the profile as a copyable markdown block and instruct the user:
+
+> *"I can't save this automatically on Claude web. Here's your Sherpa profile — copy it and save it somewhere safe (a notes app, a file on your computer, or a Claude Project). Next time you run Sherpa, paste it in and I'll pick up where we left off."*
+
+Then output the full profile schema inside a fenced markdown code block the user can copy.
 
 ### Profile schema
 
@@ -405,12 +417,17 @@ Adapt to OS and technical level:
 **Technical (any OS):**
 > *"Add `~/.claude/` to your dotfiles repo — your profile, skills, and settings all travel together."*
 
+**Claude web:**
+> *"Since we're on Claude web and I can't write files, your profile is the text I gave you above. Save it in a Claude Project (in Project instructions or as an attached file), or keep it in a notes app. Either way, paste it at the start of your next Sherpa session and I'll recognize it."*
+
 Also tell the user what else lives locally:
 > *"One more thing — any skills you've installed and your Claude settings also live on this machine. They don't travel automatically, so you'll need to reinstall them on new devices."*
 
 ## Check-in mode
 
-When `~/.claude/sherpa-profile.md` exists, run a brief check-in instead of the full quiz. Read the profile in full before asking anything.
+**On Claude Code:** When `~/.claude/sherpa-profile.md` exists, run a brief check-in instead of the full quiz. Read the profile in full before asking anything.
+
+**On Claude web:** Check-in mode is triggered when the user pastes a profile block at the start of a session. Parse it as you would a file read — extract summit, crevasses, learning path, and frontmatter metadata. Then run the check-in flow below. After check-in, present an updated profile block for the user to copy back.
 
 ### Check-in flow (3–4 questions, ~2 minutes)
 
