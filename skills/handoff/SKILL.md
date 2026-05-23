@@ -1,7 +1,7 @@
 ---
 name: handoff
 description: >
-  Delegate a task to a sub-agent to preserve the main context window. Use this skill whenever the user asks to hand off, delegate, offload, farm out, or spin off a task, or when they say things like do this in the background, don't clutter the context, use a sub-agent for this, or handle this separately. Also trigger when the user implies context preservation, such as we're getting long can you do X on the side or run this without bloating our conversation. This skill is general-purpose and works for code, writing, research, data analysis, SQL, file processing, or any self-contained task. Even if the user doesn't use the word handoff, trigger whenever they want work done outside the main conversation thread to keep it clean.
+  Delegate a task to a sub-agent to preserve the main context window. Detects misuse and teaches: hard misuses (trivial tasks, dialogue-only tasks, unresolvable ambiguity, intermediate decisions needed) pause with a structured lesson before dispatching; soft misuses (bloated briefing, context dumping, missing deliverables) proceed and surface a Handoff Quality debrief after execution. Use this skill whenever the user asks to hand off, delegate, offload, farm out, or spin off a task, or when they say things like do this in the background, don't clutter the context, use a sub-agent for this, or handle this separately. Also trigger when the user implies context preservation, such as we're getting long can you do X on the side or run this without bloating our conversation. This skill is general-purpose and works for code, writing, research, data analysis, SQL, file processing, or any self-contained task. Even if the user doesn't use the word handoff, trigger whenever they want work done outside the main conversation thread to keep it clean.
 ---
 
 # Handoff Skill
@@ -23,7 +23,80 @@ Example — full English vs. compressed:
 
 Same clarity, fewer tokens.
 
+## Misuse catalog
+
+Before dispatching any handoff, Claude checks the task against these patterns. Hard patterns pause execution and teach before proceeding. Soft patterns proceed silently and surface in a debrief after execution.
+
+### Hard patterns — pause before dispatching
+
+| # | Pattern | Detection signal |
+|---|---------|-----------------|
+| 1 | **Trivial task** | Task fits in one short sentence, no real work — a rename, lookup, one-liner |
+| 2 | **Requires dialogue** | User wants to think through, explore, or discuss — not produce a deliverable |
+| 3 | **Intermediate decisions needed** | Task has design forks where user must choose before work can continue |
+| 4 | **Unresolvable ambiguity** | Too underscoped to write a meaningful briefing; would immediately generate questions.md |
+
+### Soft patterns — proceed, debrief after
+
+| # | Pattern | Detection signal |
+|---|---------|-----------------|
+| 5 | **Bloated briefing** | Authored content exceeds ~150–200 words before file references |
+| 6 | **Context dump** | Claude pulls raw conversation into the briefing rather than distilling |
+| 7 | **Missing deliverables** | Can't concretely fill the Deliverables section — no format, path, or success criteria |
+
+### Lesson format
+
+All lessons — hard warnings and soft debrief entries — use this structure:
+
+```
+### [Pattern name]
+**Detected:** [what specifically triggered this]
+**Why this is a problem:** [1-2 sentences]
+**Rather than:** [the problematic pattern, generalized]
+**Instead:** [what to do]
+```
+
+Hard lessons append:
+> *To proceed anyway, say "hand off anyway."*
+
+Soft lessons are grouped under a **Handoff Quality** section appended after the execution summary. Framed as "for next time." Multiple soft issues each get their own entry.
+
 ## Workflow
+
+### Step 0: Pre-dispatch check
+
+Before triaging the task, check it against hard patterns 1–4 in the misuse catalog.
+
+If a hard pattern is detected:
+1. Present the structured lesson using the lesson format from the catalog
+2. Stop — do not proceed to Step 1
+3. Wait for the user to respond. If they say "hand off anyway", proceed from Step 1 as normal.
+
+Example — Trivial task:
+
+> You asked me to hand off: "rename `getUserById` to `fetchUserById` in auth.js"
+>
+> ### Trivial task
+> **Detected:** Single rename in one file — no real work for a sub-agent.
+> **Why this is a problem:** Spawning a sub-agent has overhead: briefing, spawn, summary. For a task this small, that overhead exceeds the work itself.
+> **Rather than:** Handing off any task that mentions delegation
+> **Instead:** Reserve handoff for tasks with real scope — multiple steps, file analysis, research, or anything that would take more than a minute inline.
+>
+> *To proceed anyway, say "hand off anyway."*
+
+Example — Requires dialogue:
+
+> You asked me to hand off: "help me think through the best approach for the auth refactor"
+>
+> ### Requires dialogue
+> **Detected:** Task is exploratory — it needs back-and-forth to reach a conclusion, not a deliverable a sub-agent can produce independently.
+> **Why this is a problem:** Sub-agents can't ask follow-up questions mid-task. They'll make assumptions and produce work you'll likely discard.
+> **Rather than:** Handing off any task that involves deciding, discussing, or exploring
+> **Instead:** Work through this inline where we can iterate together. Use handoff once there's a clear deliverable to produce.
+>
+> *To proceed anyway, say "hand off anyway."*
+
+If no hard patterns are detected, proceed to Step 1.
 
 ### Step 1: Triage the task
 
@@ -61,6 +134,13 @@ Write to `.handoffs/<slug>/briefing.md` where `<slug>` is a short descriptive na
 
 **Briefing size gate:** If the briefing is growing beyond roughly 150-200 words of authored content (file path references don't count), stop. Either the task isn't well-scoped for handoff or it should be split into multiple handoffs. Do not ship a bloated briefing — break the task down instead.
 
+While writing the briefing, watch for soft patterns from the misuse catalog:
+- **Bloated briefing** (pattern 5): flag if authored content exceeds ~150–200 words
+- **Context dump** (pattern 6): flag if you find yourself pulling raw conversation text rather than distilling decisions and constraints
+- **Missing deliverables** (pattern 7): flag if you can't concretely fill the Deliverables section — no format, path, or success criteria
+
+Do not interrupt execution. Flag any triggered patterns internally to surface in Step 4.
+
 ### Step 3: Spawn the sub-agent
 
 ```
@@ -90,6 +170,30 @@ Check what came back:
 
 **Happy path — SUMMARY.md exists:**
 Read it and present to the user. This is the only content that enters the main context from the handoff. If the result is a short value (single function, one-liner, brief answer), include the substance inline alongside the summary. Otherwise, present summary and file paths — let the user decide what to pull in.
+
+After presenting the summary, check whether any soft patterns were flagged during Step 2. If yes, append a **Handoff Quality** section using the lesson format from the misuse catalog:
+
+---
+**Handoff Quality**
+
+[One entry per soft pattern detected, using the lesson format: Pattern name / Detected / Why this is a problem / Rather than / Instead]
+
+---
+
+Example:
+
+---
+**Handoff Quality**
+
+### Bloated briefing
+**Detected:** Briefing reached ~240 words before file references.
+**Why this is a problem:** Large briefings signal a task that isn't well-scoped. The sub-agent gets noise alongside the signal, and the briefing is harder to revise or reuse.
+**Rather than:** Writing everything you know about the problem
+**Instead:** Distill to what the sub-agent can't infer from the files. 150 words is usually enough; if not, the task may need splitting.
+
+---
+
+If no soft patterns were flagged, nothing extra appears — do not add the section.
 
 **Questions path — questions.md exists:**
 Present the questions to the user. This is also a signal: the briefing wasn't targeted enough. Answer the questions, amend the briefing, relaunch. Don't treat this as normal — it means the handoff could have been scoped better.
