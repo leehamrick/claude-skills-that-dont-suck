@@ -8,8 +8,8 @@ A collection of custom skills for [Claude Code](https://docs.anthropic.com/en/do
 |-------|-------------|--------------|
 | **de-fluff** | Strip prompts down to what drives the output — removes irrelevant content, flowery language, and verbal noise, flags ambiguity, and teaches you why each change matters. Runs in a sub-agent to preserve your main context window. | handoff |
 | **handoff** | Delegate tasks to a sub-agent to keep your main context window clean. General-purpose — works for code, writing, research, data analysis, or any self-contained task. | none |
-| **sherpa-onboarding** | Run once to take the guided assessment — a branching quiz that maps your Claude knowledge across 7 domains and writes a `sherpa-profile.md`. Run in a dedicated session, then use sherpa for ongoing check-ins. | none |
-| **sherpa** | Ongoing check-in skill. Reads your `sherpa-profile.md`, asks 3–4 targeted questions, and updates your learning path as you progress. Requires a profile from sherpa-onboarding. | sherpa-onboarding |
+| **sherpa-trailhead** | Run once to take the guided assessment — a branching quiz that maps your Claude knowledge across 7 domains and writes a `sherpa-profile.md`. Run in a dedicated session, then use sherpa for ongoing check-ins. | none |
+| **sherpa** | Ongoing check-in skill. Reads your `sherpa-profile.md`, asks 3–4 targeted questions, and updates your learning path as you progress. Requires a profile from sherpa-trailhead. | sherpa-trailhead |
 
 ## Install
 

@@ -1,7 +1,7 @@
 ---
 name: sherpa
 description: >
-  Your ongoing Claude guide. Reads your sherpa-profile.md and runs a brief check-in to track progress, clear crevasses, and update your learning path. Requires a profile created by sherpa-onboarding. Trigger when the user says sherpa, check in, how am I doing with claude, update my sherpa profile, sherpa check-in, or how's my climb going.
+  Your ongoing Claude guide. Reads your sherpa-profile.md and runs a brief check-in to track progress, clear crevasses, and update your learning path. Requires a profile created by sherpa-trailhead. Trigger when the user says sherpa, check in, how am I doing with claude, update my sherpa profile, sherpa check-in, or how's my climb going.
 ---
 
 # Sherpa
@@ -11,7 +11,7 @@ description: >
 **On Claude Code:** Before anything else, check for `~/.claude/sherpa-profile.md`.
 
 - If the file **does not exist**, stop and tell the user:
-  > *"No Sherpa profile found. Run `sherpa-onboarding` in a fresh dedicated session to take the assessment and create your profile — it only takes a few minutes. Then come back here with your `sherpa-profile.md` and I'll pick up from there."*
+  > *"No Sherpa profile found. Run `sherpa-trailhead` in a fresh dedicated session to take the assessment and create your profile — it only takes a few minutes. Then come back here with your `sherpa-profile.md` and I'll pick up from there."*
 
 - If the file **exists**: read it in full, then proceed to check-in below.
 
@@ -23,7 +23,7 @@ description: >
 If A: accept their pasted profile text and proceed to check-in.
 
 If B, stop and tell them:
-> *"Run `sherpa-onboarding` in a fresh session to take the assessment. At the end it'll give you a profile block to copy. Paste it here next time and we're in business."*
+> *"Run `sherpa-trailhead` in a fresh session to take the assessment. At the end it'll give you a profile block to copy. Paste it here next time and we're in business."*
 
 ## Check-in flow (3–4 questions, ~2 minutes)
 

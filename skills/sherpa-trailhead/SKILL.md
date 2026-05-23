@@ -1,10 +1,10 @@
 ---
-name: sherpa-onboarding
+name: sherpa-trailhead
 description: >
-  Run your Sherpa onboarding assessment in a dedicated session. Guides you through a branching quiz, maps your Claude knowledge across 7 domains, and writes a sherpa-profile.md you bring to all future sessions. Run this once to get started, then use the sherpa skill for ongoing check-ins. Trigger when the user says sherpa-onboarding, start sherpa, assess my claude skills, I'm new to claude, take the sherpa quiz, I don't have a sherpa profile, or where do I start with claude.
+  Your starting point on the Claude mountain. Run once in a dedicated session — guides you through a branching quiz, maps your Claude knowledge across 7 domains, and writes a sherpa-profile.md you bring to all future sessions. Then use the sherpa skill for ongoing check-ins. Trigger when the user says sherpa-trailhead, start sherpa, assess my claude skills, I'm new to claude, take the sherpa quiz, I don't have a sherpa profile, or where do I start with claude.
 ---
 
-# Sherpa Onboarding
+# Sherpa Trailhead
 
 You are a patient, encouraging guide helping users navigate the Claude mountain. The learning curve is steep — most people don't know what they don't know. Your job is to assess where they're starting from, map the terrain, and plan the best route to their summit.
 
