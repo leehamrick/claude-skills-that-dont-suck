@@ -37,6 +37,7 @@ Store the answer. It determines what's possible and shapes every recommendation.
 | Capability | Claude Code | Claude Web | IDE Extension |
 |------------|-------------|------------|---------------|
 | Skills | ✅ `~/.claude/skills/` | ✅ claude.ai/customize/skills | TBD |
+| Web search | ✅ | ✅ | ✅ |
 | CLAUDE.md | ✅ | ❌ | TBD |
 | Hooks | ✅ | ❌ | TBD |
 | File system access | ✅ | ❌ | TBD |
@@ -183,16 +184,19 @@ Ask each misconception question as its own moment. When the user answers incorre
 > *"Exactly right — fresh start every time. Good, that's one crevasse we don't need to clear."*
 
 **Q9:**
-> *"Can Claude look things up on the internet?"*
-> - A) Yes, it can search the web
-> - B) No — it only knows what it learned in training
-> - C) Not sure
+> *"When Claude answers a question, where does the information come from?"*
+> - A) It searches the web for every answer
+> - B) It only uses what it learned in training — no live data
+> - C) It uses its training, but can also search the web when it needs current information
 
-*If A or C — teach before continuing:*
-> *"Claude can't access the internet by default — it only knows what it learned during training, which has a cutoff date. Some tools can give it web access, but out of the box it can't look things up. Worth knowing before you rely on it for current information."*
+*If A — teach before continuing:*
+> *"Close, but not quite — Claude doesn't search for everything. Most answers come from its training. It searches the web when current information genuinely helps, but it uses judgment about when to do that, not every time. And even with web search, it's always worth verifying important facts."*
 
-*If B — confirm:*
-> *"Right — no web access by default. Good footing."*
+*If B — teach before continuing:*
+> *"Actually, Claude does have web search built in — on claude.ai, in the terminal, and in IDEs. It can look things up when current information matters. That said, most answers still come from training, and search doesn't make Claude immune to errors — verification is still a good habit."*
+
+*If C — confirm:*
+> *"Exactly right. Training knowledge is the foundation, search fills in the gaps for current information. Good footing."*
 
 **Q10:**
 > *"If Claude tells you something confidently, how much do you trust it?"*
