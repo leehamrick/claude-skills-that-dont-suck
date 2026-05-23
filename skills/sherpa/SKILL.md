@@ -121,14 +121,22 @@ Ask questions one at a time. Wait for each answer before asking the next. Never 
 > - C) Linux
 
 **Q4:**
-> *"Do you use Claude on more than one device?"*
+> *"Do you use Claude on more than one device — like a work laptop and a home computer?"*
 > - A) Yes
 > - B) No, just this one
 
-*If A: plant a flag — don't ask anything yet, just note it:*
-> *"Good to know — some of your setup lives on each machine separately. We'll come back to that on the trail."*
+*If A: plant a flag and note it:*
+> *"Good to know — your setup lives on each machine separately and won't sync automatically. We'll cover that on the trail."*
 
-**Q4b:**
+**Q4c:**
+> *"Do you use Claude in more than one way — like both on the web and in the terminal, or at work and at home through different tools?"*
+> - A) Yes, in more than one place
+> - B) No, just the one I mentioned
+
+*If A: plant a flag and note it:*
+> *"Worth knowing — each environment is its own silo. Skills you install in Claude Code won't show up on Claude web, and your profile won't follow you between them automatically. We'll make sure your route accounts for that."*
+
+**Q4c:**
 > *"Are you using Claude mainly for work, personal projects, or both?"*
 > - A) Mainly work
 > - B) Mainly personal
@@ -241,7 +249,7 @@ Ask each misconception question as its own moment. When the user answers incorre
 > - B) Sometimes
 > - C) No
 
-**Q17 — only if Q4b was A or C (work or both) AND Q16 was A or B:**
+**Q17 — only if Q4c was A or C (work or both) AND Q16 was A or B:**
 > *"Does your organization have specific rules around this data — like HIPAA, CJIS, or other compliance requirements?"*
 > - A) Yes, specific requirements
 > - B) General "be careful" policies
@@ -250,13 +258,13 @@ Ask each misconception question as its own moment. When the user answers incorre
 *If A — flag prominently:*
 > *"Important — before we map your route, we need to make sure you know what data should and shouldn't go into Claude. Regulated data like patient records or criminal justice information must not be pasted into prompts. We'll make this a waypoint on your path."*
 
-**Q18 — only if Q4b was A or C (work or both):**
+**Q18 — only if Q4c was A or C (work or both):**
 > *"Does your workplace have rules about which AI tools you're allowed to use?"*
 > - A) Yes — approved tools only
 > - B) No specific rules
 > - C) Not sure
 
-*If Q4b was B (personal only): skip Q17 and Q18 entirely.*
+*If Q4c was B (personal only): skip Q17 and Q18 entirely.*
 
 ---
 
