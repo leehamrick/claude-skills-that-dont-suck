@@ -8,6 +8,7 @@ A collection of custom skills for [Claude Code](https://docs.anthropic.com/en/do
 |-------|-------------|--------------|
 | **de-fluff** | Strip prompts down to what drives the output — removes irrelevant content, flowery language, and verbal noise, flags ambiguity, and teaches you why each change matters. Runs in a sub-agent to preserve your main context window. | handoff |
 | **handoff** | Delegate tasks to a sub-agent to keep your main context window clean. General-purpose — works for code, writing, research, data analysis, or any self-contained task. | none |
+| **sherpa** | Guide you through the Claude learning curve. Assesses your skills via a guided quiz, maps your knowledge terrain across 7 domains, and builds a personalized learning path to your summit. Saves a global learner profile that persists across sessions. | none |
 
 ## Install
 
@@ -34,6 +35,38 @@ mkdir "$env:USERPROFILE\.claude\skills\handoff" -Force
 Copy-Item skills\de-fluff\SKILL.md "$env:USERPROFILE\.claude\skills\de-fluff\"
 Copy-Item skills\handoff\SKILL.md "$env:USERPROFILE\.claude\skills\handoff\"
 ```
+
+### Installing Sherpa (beginner-friendly guide)
+
+Sherpa is designed for users new to Claude Code. Here's how to get it running:
+
+**On Mac:**
+1. Open the Terminal app (search for "Terminal" in Spotlight)
+2. Paste this command and press Enter:
+   ```bash
+   mkdir -p ~/.claude/skills/sherpa
+   cp skills/sherpa/SKILL.md ~/.claude/skills/sherpa/
+   ```
+3. Start a new Claude Code session
+4. Type: `sherpa` — Claude will start your guided assessment
+
+**On Windows:**
+1. Open PowerShell (search for "PowerShell" in the Start menu)
+2. Paste this command and press Enter:
+   ```powershell
+   mkdir "$env:USERPROFILE\.claude\skills\sherpa" -Force
+   Copy-Item skills\sherpa\SKILL.md "$env:USERPROFILE\.claude\skills\sherpa\"
+   ```
+3. Start a new Claude Code session
+4. Type: `sherpa` — Claude will start your guided assessment
+
+**On Claude web (claude.ai):**
+1. Go to claude.ai/customize/skills
+2. Import the `sherpa` skill
+3. Start a new conversation
+4. Type: `sherpa` — Claude will start your guided assessment
+
+**Did it work?** After typing `sherpa`, Claude should greet you and ask where you're using it. If nothing happens, make sure you started a *new* session after installing.
 
 ### Option 2: Clone the whole repo
 
