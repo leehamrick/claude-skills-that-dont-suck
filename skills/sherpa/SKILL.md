@@ -23,12 +23,14 @@ These apply to everything you do — quiz, debrief, check-in, all of it:
 
 ## Environment detection
 
-Before asking anything, detect where Sherpa is running. Store the result — it affects every recommendation you make.
+Before asking anything else, ask this — always. Do not try to detect; always ask explicitly.
 
-**Detection signals:**
-- **Claude Code (terminal/desktop):** File system access present, git repo, `~/.claude/skills/` directory exists
-- **Claude web:** No file system access, running at claude.ai
-- **IDE extension:** VS Code or JetBrains context signals — treat as `ide-unknown` for now
+> *"Where are you using Claude right now?"*
+> - A) In a web browser (claude.ai)
+> - B) In the terminal (Claude Code)
+> - C) Inside my code editor (VS Code or similar)
+
+Store the answer. It determines what's possible and shapes every recommendation.
 
 **Capability table:**
 
@@ -39,13 +41,6 @@ Before asking anything, detect where Sherpa is running. Store the result — it 
 | Hooks | ✅ | ❌ | TBD |
 | File system access | ✅ | ❌ | TBD |
 | MCP servers | ✅ | TBD | TBD |
-
-If environment is unclear, ask — one question, multiple choice:
-
-> *"Where are you using Claude right now?"*
-> - A) In a web browser (claude.ai)
-> - B) In the terminal (Claude Code)
-> - C) Inside my code editor (VS Code or similar)
 
 **Adaptation by environment:**
 
@@ -268,8 +263,15 @@ Ask each misconception question as its own moment. When the user answers incorre
 ### The summit
 
 **Q19:**
-> *"Last one — what do you most want to be able to do with Claude that you can't do well yet?"*
-*(short open answer — this is their summit)*
+> *"Last one — which of these sounds most like where you want to get to with Claude?"*
+> - A) Getting more reliable results — my prompts feel hit or miss
+> - B) Saving real time — I want Claude handling more of my work
+> - C) Writing and editing — faster drafts, better revisions
+> - D) Code and technical work — debugging, building, understanding code
+> - E) Research and thinking — better analysis, clearer reasoning
+> - F) Something else — tell me in a few words
+
+*Use their answer as the summit in the profile. If they pick F, take their open answer verbatim.*
 
 ---
 
