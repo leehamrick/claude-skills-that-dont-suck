@@ -38,35 +38,46 @@ Copy-Item skills\handoff\SKILL.md "$env:USERPROFILE\.claude\skills\handoff\"
 
 ### Installing Sherpa (beginner-friendly guide)
 
-Sherpa is designed for users new to Claude Code. Here's how to get it running:
+Sherpa works with Claude Code (desktop/terminal) and Claude on the web. Pick your platform:
 
-**On Mac:**
-1. Open the Terminal app (search for "Terminal" in Spotlight)
+---
+
+**Claude web (claude.ai) — no installation required:**
+
+1. Click this link to download the skill file: [Download SKILL.md](https://raw.githubusercontent.com/leehamrick/claude-skills-that-dont-suck/master/skills/sherpa/SKILL.md)
+   - In your browser, that will open a page of text. Right-click anywhere on the page and choose **Save As** (or **Save Page As**). Save it as `SKILL.md` somewhere easy to find, like your Desktop.
+2. Go to [claude.ai/customize/skills](https://claude.ai/customize/skills)
+3. Click the button to add a new skill and upload the `SKILL.md` file you just saved
+4. Start a **new** conversation at claude.ai
+5. Type: `sherpa`
+
+---
+
+**On Mac (Claude Code):**
+
+1. Open the Terminal app — search for "Terminal" in Spotlight (press `Cmd + Space`, type Terminal, press Enter)
 2. Paste this command and press Enter:
    ```bash
-   mkdir -p ~/.claude/skills/sherpa
-   cp skills/sherpa/SKILL.md ~/.claude/skills/sherpa/
+   mkdir -p ~/.claude/skills/sherpa && curl -o ~/.claude/skills/sherpa/SKILL.md "https://raw.githubusercontent.com/leehamrick/claude-skills-that-dont-suck/master/skills/sherpa/SKILL.md"
    ```
-3. Start a new Claude Code session
-4. Type: `sherpa` — Claude will start your guided assessment
+3. Start a **new** Claude Code session
+4. Type: `sherpa`
 
-**On Windows:**
-1. Open PowerShell (search for "PowerShell" in the Start menu)
+---
+
+**On Windows (Claude Code):**
+
+1. Open PowerShell — press the Windows key, type `PowerShell`, press Enter
 2. Paste this command and press Enter:
    ```powershell
-   mkdir "$env:USERPROFILE\.claude\skills\sherpa" -Force
-   Copy-Item skills\sherpa\SKILL.md "$env:USERPROFILE\.claude\skills\sherpa\"
+   mkdir "$env:USERPROFILE\.claude\skills\sherpa" -Force; Invoke-WebRequest -Uri "https://raw.githubusercontent.com/leehamrick/claude-skills-that-dont-suck/master/skills/sherpa/SKILL.md" -OutFile "$env:USERPROFILE\.claude\skills\sherpa\SKILL.md"
    ```
-3. Start a new Claude Code session
-4. Type: `sherpa` — Claude will start your guided assessment
+3. Start a **new** Claude Code session
+4. Type: `sherpa`
 
-**On Claude web (claude.ai):**
-1. Go to claude.ai/customize/skills
-2. Import the `sherpa` skill
-3. Start a new conversation
-4. Type: `sherpa` — Claude will start your guided assessment
+---
 
-**Did it work?** After typing `sherpa`, Claude should greet you and ask where you're using it. If nothing happens, make sure you started a *new* session after installing.
+**Did it work?** After typing `sherpa`, Claude should greet you and ask a question about where you're using it. If nothing happens, make sure you started a *new* session — skills only load at the start of a conversation.
 
 ### Option 2: Clone the whole repo
 
